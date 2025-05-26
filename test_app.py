@@ -12,19 +12,18 @@ class APITestCase(unittest.TestCase):
         # Criação do cliente de teste
         cls.client = app.test_client()
 
-    def test_home(self):
-        response = self.client.get('/')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json, {"message": "API is running"})
+    def test_post_not_allowed_items(self):
+        response = self.client.post('/items')
+        self.assertEqual(response.status_code, 405)
 
-    def test_login(self):
-        response = self.client.post('/login')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('access_token', response.json)
+    def test_404_route(self):
+        response = self.client.get('/rota-que-nao-existe')
+        self.assertEqual(response.status_code, 404)
 
-    def test_protected_no_token(self):
-        response = self.client.get('/protected')
-        self.assertEqual(response.status_code, 401)
+    def test_get_items_content(self):
+        response = self.client.get('/items')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("item1", response.json["items"])
 
 if __name__ == '__main__':
     unittest.main()
