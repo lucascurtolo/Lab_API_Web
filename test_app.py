@@ -12,7 +12,7 @@ class APITestCase(unittest.TestCase):
         # Criação do cliente de teste
         cls.client = app.test_client()
 
-    def test_post_not_allowed_items(self):
+    def test_post_not_allowed_items(self)
         response = self.client.post('/items')
         self.assertEqual(response.status_code, 405)
 
